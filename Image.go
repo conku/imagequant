@@ -23,6 +23,7 @@ import (
 
 /*
 #include "libimagequant.h"
+#include "stdlib.h"
 */
 import "C"
 
@@ -54,6 +55,7 @@ func NewImage(attr *Attributes, rgba32data string, width, height int, gamma floa
 // Free memory. Callers must not use this object after Release has been called.
 func (this *Image) Release() {
 	C.liq_image_destroy(this.p)
+	C.free(dataP)
 	this.released = true
 }
 
