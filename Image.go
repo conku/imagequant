@@ -37,9 +37,9 @@ type Image struct {
 // Callers MUST call Release() on the returned object to free memory.
 func NewImage(attr *Attributes, rgba32data string, width, height int, gamma float64) (*Image, error) {
 	dataP := unsafe.Pointer(C.CString(rgba32data))
-	defer C.free(dataP)
 	pImg := C.liq_image_create_rgba(attr.p, dataP, C.int(width), C.int(height), C.double(gamma))
 	if pImg == nil {
+		C.free(dataP)
 		return nil, errors.New("Failed to create image (invalid argument)")
 	}
 
